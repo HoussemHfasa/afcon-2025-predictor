@@ -1,0 +1,219 @@
+{
+  "common": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "joinNow": "Join Now",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "admin": "Admin",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and"
+  },
+  "nav": {
+    "home": "Home",
+    "matches": "Matches",
+    "predictions": "Predictions",
+    "leaderboard": "Leaderboard"
+  },
+  "home": {
+    "badge": "Morocco 2025 • Dec 21 - Jan 18",
+    "heroTitle1": "Predict the",
+    "heroTitle2": "Africa Cup",
+    "heroTitle3": "of Nations",
+    "heroTitle4": "2025",
+    "heroSubtitle": "Join thousands of football fans predicting match results, competing on leaderboards, and winning prizes. The ultimate prediction competition for African football!",
+    "startPredicting": "Start Predicting",
+    "viewMatches": "View Matches",
+    "goToDashboard": "Go to Dashboard",
+    "viewPredictions": "View My Predictions",
+    "stats": {
+      "teams": "Teams",
+      "matches": "Matches",
+      "predictions": "Predictions",
+      "titles": "Epic Titles"
+    },
+    "features": {
+      "title": "How It",
+      "titleHighlight": "Works",
+      "subtitle": "Simple, fun, and competitive. Predict match outcomes, earn points, and climb the global leaderboard.",
+      "predictMatches": {
+        "title": "Predict Matches",
+        "description": "Predict winners, draws, and exact scores for every AFCON 2025 match."
+      },
+      "earnPoints": {
+        "title": "Earn Points",
+        "description": "3 points for correct prediction, +1 bonus for exact score difference."
+      },
+      "climbLeaderboard": {
+        "title": "Climb Leaderboard",
+        "description": "Compete globally and see your ranking update in real-time."
+      },
+      "challengeFriends": {
+        "title": "Challenge Friends",
+        "description": "Create private leagues and compete head-to-head with friends."
+      },
+      "unlockAchievements": {
+        "title": "Unlock Achievements",
+        "description": "Earn badges for streaks, perfect weeks, and prediction milestones."
+      },
+      "realTimeUpdates": {
+        "title": "Real-Time Updates",
+        "description": "Live scores and instant leaderboard updates as matches finish."
+      }
+    },
+    "scoring": {
+      "title": "Scoring",
+      "titleHighlight": "System",
+      "subtitle": "Our fair and exciting scoring system rewards accurate predictions while keeping everyone in the game.",
+      "correctPrediction": {
+        "title": "Correct Prediction",
+        "description": "Correctly predict the match winner or draw"
+      },
+      "scoreDifferenceBonus": {
+        "title": "Score Difference Bonus",
+        "description": "Predict the exact goal difference for bonus points"
+      },
+      "incorrectPrediction": {
+        "title": "Incorrect Prediction",
+        "description": "No points lost - keep predicting!"
+      },
+      "topPredictorTitles": "Top Predictor Titles",
+      "firstPlace": "1st Place",
+      "secondPlace": "2nd Place",
+      "thirdPlace": "3rd Place"
+    },
+    "cta": {
+      "title": "Ready to",
+      "titleHighlight": "Predict?",
+      "subtitle": "Join now and start predicting AFCON 2025 matches. Compete with fans worldwide!",
+      "createAccount": "Create Free Account",
+      "alreadyHaveAccount": "Already have an account?"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to continue predicting",
+      "email": "Email Address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "register": {
+      "title": "Join AFCON 2025",
+      "subtitle": "Create your account and start predicting",
+      "username": "Username",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "termsAgree": "I agree to the Terms of Service",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "verification": {
+      "title": "Verify Your Email",
+      "resendTitle": "Resend Verification Email",
+      "resendSubtitle": "Enter your email address and we'll send you a new verification link.",
+      "sendEmail": "Send Verification Email",
+      "verifying": "Verifying Your Email...",
+      "verified": "Email Verified!",
+      "failed": "Verification Failed",
+      "expired": "Link Expired",
+      "invalidLink": "Invalid Link",
+      "goToLogin": "Go to Login",
+      "backToLogin": "Back to Login",
+      "resend": "Resend Verification Email",
+      "checkEmail": "Check your email for verification link"
+    }
+  },
+  "matches": {
+    "title": "Matches",
+    "upcoming": "Upcoming",
+    "live": "Live",
+    "finished": "Finished",
+    "noMatches": "No matches found",
+    "groupStage": "Group Stage",
+    "knockoutStage": "Knockout Stage",
+    "final": "Final",
+    "vs": "vs",
+    "kickoff": "Kickoff",
+    "predict": "Predict",
+    "predicted": "Predicted",
+    "viewDetails": "View Details"
+  },
+  "predictions": {
+    "title": "My Predictions",
+    "noPredictions": "You haven't made any predictions yet",
+    "makePrediction": "Make a Prediction",
+    "yourPrediction": "Your Prediction",
+    "actualScore": "Actual Score",
+    "points": "Points",
+    "pending": "Pending",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "cancel": "Cancel Prediction"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "player": "Player",
+    "points": "Points",
+    "predictions": "Predictions",
+    "accuracy": "Accuracy",
+    "you": "You",
+    "topPredictors": "Top Predictors",
+    "yourRank": "Your Rank"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "yourStats": "Your Stats",
+    "totalPoints": "Total Points",
+    "correctPredictions": "Correct Predictions",
+    "totalPredictions": "Total Predictions",
+    "globalRank": "Global Rank",
+    "recentPredictions": "Recent Predictions",
+    "upcomingMatches": "Upcoming Matches"
+  },
+  "footer": {
+    "tagline": "The ultimate AFCON 2025 prediction game",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "connect": "Connect",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "contactUs": "Contact Us",
+    "copyright": "© 2025 AFCON 2025 Predictor. All rights reserved.",
+    "madeWith": "Made with ❤️ for African football fans"
+  },
+  "admin": {
+    "deleteUser": {
+      "title": "Delete User",
+      "confirmMessage": "You are about to permanently delete this user account and all their data:",
+      "reasonLabel": "Reason for Deletion",
+      "reasonPlaceholder": "Explain why this account is being removed...",
+      "reasonHint": "Minimum 10 characters. This will be sent to the user via email.",
+      "reasonTooShort": "Reason must be at least 10 characters",
+      "success": "User deleted successfully"
+    }
+  }
+}

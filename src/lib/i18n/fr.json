@@ -1,0 +1,231 @@
+{
+  "common": {
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "joinNow": "Rejoindre",
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "admin": "Admin",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "all": "Tout",
+    "none": "Aucun",
+    "yes": "Oui",
+    "no": "Non",
+    "or": "ou",
+    "and": "et"
+  },
+  "nav": {
+    "home": "Accueil",
+    "matches": "Matchs",
+    "predictions": "Pronostics",
+    "leaderboard": "Classement"
+  },
+  "home": {
+    "badge": "Maroc 2025 • 21 Déc - 18 Jan",
+    "heroTitle1": "Prédisez la",
+    "heroTitle2": "Coupe d'Afrique",
+    "heroTitle3": "des Nations",
+    "heroTitle4": "2025",
+    "heroSubtitle": "Rejoignez des milliers de fans de football pour prédire les résultats des matchs, rivaliser dans les classements et gagner des prix. La compétition ultime de pronostics pour le football africain !",
+    "startPredicting": "Commencer les pronostics",
+    "viewMatches": "Voir les matchs",
+    "goToDashboard": "Aller au tableau de bord",
+    "viewPredictions": "Voir mes pronostics",
+    "stats": {
+      "teams": "Équipes",
+      "matches": "Matchs",
+      "predictions": "Pronostics",
+      "titles": "Titres Épiques"
+    },
+    "features": {
+      "title": "Comment ça",
+      "titleHighlight": "Fonctionne",
+      "subtitle": "Simple, amusant et compétitif. Prédisez les résultats des matchs, gagnez des points et grimpez dans le classement mondial.",
+      "predictMatches": {
+        "title": "Prédire les Matchs",
+        "description": "Prédisez les vainqueurs, les nuls et les scores exacts pour chaque match de la CAN 2025."
+      },
+      "earnPoints": {
+        "title": "Gagner des Points",
+        "description": "3 points pour une prédiction correcte, +1 bonus pour la différence de score exacte."
+      },
+      "climbLeaderboard": {
+        "title": "Grimper au Classement",
+        "description": "Rivalisez mondialement et voyez votre classement se mettre à jour en temps réel."
+      },
+      "challengeFriends": {
+        "title": "Défier des Amis",
+        "description": "Créez des ligues privées et affrontez vos amis en tête-à-tête."
+      },
+      "unlockAchievements": {
+        "title": "Débloquer des Succès",
+        "description": "Gagnez des badges pour les séries, les semaines parfaites et les jalons de pronostics."
+      },
+      "realTimeUpdates": {
+        "title": "Mises à Jour en Temps Réel",
+        "description": "Scores en direct et mises à jour instantanées du classement à la fin des matchs."
+      }
+    },
+    "scoring": {
+      "title": "Système de",
+      "titleHighlight": "Points",
+      "subtitle": "Notre système de points équitable et excitant récompense les prédictions précises tout en gardant tout le monde dans le jeu.",
+      "correctPrediction": {
+        "title": "Prédiction Correcte",
+        "description": "Prédisez correctement le vainqueur ou le match nul"
+      },
+      "scoreDifferenceBonus": {
+        "title": "Bonus Différence de Score",
+        "description": "Prédisez la différence de buts exacte pour des points bonus"
+      },
+      "incorrectPrediction": {
+        "title": "Prédiction Incorrecte",
+        "description": "Pas de points perdus - continuez à prédire !"
+      },
+      "topPredictorTitles": "Titres des Meilleurs Pronostiqueurs",
+      "firstPlace": "1ère Place",
+      "secondPlace": "2ème Place",
+      "thirdPlace": "3ème Place"
+    },
+    "cta": {
+      "title": "Prêt à",
+      "titleHighlight": "Prédire ?",
+      "subtitle": "Inscrivez-vous maintenant et commencez à prédire les matchs de la CAN 2025. Rivalisez avec des fans du monde entier !",
+      "createAccount": "Créer un Compte Gratuit",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bon Retour",
+      "subtitle": "Connectez-vous pour continuer à prédire",
+      "email": "Adresse Email",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signUp": "S'inscrire"
+    },
+    "register": {
+      "title": "Rejoindre la CAN 2025",
+      "subtitle": "Créez votre compte et commencez à prédire",
+      "username": "Nom d'utilisateur",
+      "email": "Adresse Email",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "termsAgree": "J'accepte les Conditions d'Utilisation",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    },
+    "verification": {
+      "title": "Vérifiez Votre Email",
+      "resendTitle": "Renvoyer l'Email de Vérification",
+      "resendSubtitle": "Entrez votre adresse email et nous vous enverrons un nouveau lien de vérification.",
+      "sendEmail": "Envoyer l'Email de Vérification",
+      "verifying": "Vérification de Votre Email...",
+      "verified": "Email Vérifié !",
+      "failed": "Échec de la Vérification",
+      "expired": "Lien Expiré",
+      "invalidLink": "Lien Invalide",
+      "goToLogin": "Aller à la Connexion",
+      "backToLogin": "Retour à la Connexion",
+      "resend": "Renvoyer l'Email de Vérification",
+      "checkEmail": "Vérifiez votre email pour le lien de vérification"
+    }
+  },
+  "matches": {
+    "title": "Matchs",
+    "upcoming": "À venir",
+    "live": "En direct",
+    "finished": "Terminé",
+    "noMatches": "Aucun match trouvé",
+    "groupStage": "Phase de Groupes",
+    "knockoutStage": "Phase Éliminatoire",
+    "final": "Finale",
+    "vs": "vs",
+    "kickoff": "Coup d'envoi",
+    "predict": "Prédire",
+    "predicted": "Prédit",
+    "viewDetails": "Voir les Détails"
+  },
+  "predictions": {
+    "title": "Mes Pronostics",
+    "noPredictions": "Vous n'avez pas encore fait de pronostics",
+    "makePrediction": "Faire un Pronostic",
+    "yourPrediction": "Votre Pronostic",
+    "actualScore": "Score Réel",
+    "points": "Points",
+    "pending": "En attente",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "cancel": "Annuler le Pronostic",
+    "quickPredict": {
+      "title": "Pronostic Rapide",
+      "subtitle": "Prédire Tous les Matchs",
+      "description": "Pronostiquez rapidement plusieurs matchs à la fois. Sélectionnez 1 (Équipe A), X (Nul), ou 2 (Équipe B) pour chaque match, puis soumettez tout d'un coup.",
+      "matchesAwaiting": "matchs en attente de vos pronostics",
+      "submitAll": "Soumettre les Pronostics",
+      "allCaughtUp": "Tout est à jour ! 🎉",
+      "allCaughtUpDesc": "Vous avez prédit tous les matchs à venir. Revenez plus tard !",
+      "viewPredictions": "Voir Vos Pronostics",
+      "backToMatches": "Retour aux Matchs",
+      "bonusInfo": "+1 point bonus pour la différence de score correcte"
+    }
+  },
+  "leaderboard": {
+    "title": "Classement",
+    "rank": "Rang",
+    "player": "Joueur",
+    "points": "Points",
+    "predictions": "Pronostics",
+    "accuracy": "Précision",
+    "you": "Vous",
+    "topPredictors": "Meilleurs Pronostiqueurs",
+    "yourRank": "Votre Rang"
+  },
+  "dashboard": {
+    "title": "Tableau de Bord",
+    "welcome": "Bienvenue",
+    "yourStats": "Vos Statistiques",
+    "totalPoints": "Points Totaux",
+    "correctPredictions": "Pronostics Corrects",
+    "totalPredictions": "Total des Pronostics",
+    "globalRank": "Rang Mondial",
+    "recentPredictions": "Pronostics Récents",
+    "upcomingMatches": "Matchs à Venir"
+  },
+  "footer": {
+    "tagline": "Le jeu de pronostics ultime de la CAN 2025",
+    "quickLinks": "Liens Rapides",
+    "legal": "Légal",
+    "connect": "Connexion",
+    "termsOfService": "Conditions d'Utilisation",
+    "privacyPolicy": "Politique de Confidentialité",
+    "contactUs": "Nous Contacter",
+    "copyright": "© 2025 AFCON 2025 Predictor. Tous droits réservés.",
+    "madeWith": "Fait avec ❤️ pour les fans de football africain"
+  },
+  "admin": {
+    "deleteUser": {
+      "title": "Supprimer l'utilisateur",
+      "confirmMessage": "Vous êtes sur le point de supprimer définitivement ce compte utilisateur et toutes ses données :",
+      "reasonLabel": "Motif de suppression",
+      "reasonPlaceholder": "Expliquez pourquoi ce compte est supprimé...",
+      "reasonHint": "Minimum 10 caractères. Ceci sera envoyé à l'utilisateur par email.",
+      "reasonTooShort": "Le motif doit contenir au moins 10 caractères",
+      "success": "Utilisateur supprimé avec succès"
+    }
+  }
+}

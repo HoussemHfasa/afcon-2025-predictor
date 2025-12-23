@@ -1,0 +1,289 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  username          String    @unique
+  passwordHash      String
+  profilePic        String?
+  isAdmin           Boolean   @default(false)
+  isVerified        Boolean   @default(false)
+  verificationToken String?
+  verificationTokenExpiry DateTime?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  
+  // Stats (denormalized for performance)
+  totalPoints       Int       @default(0)
+  correctPredictions Int      @default(0)
+  totalPredictions  Int       @default(0)
+  currentRank       Int?
+  currentStreak     Int       @default(0)
+  longestStreak     Int       @default(0)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  predictions       Prediction[]
+  achievements      UserAchievement[]
+  challengesSent    Challenge[] @relation("ChallengeSender")
+  challengesReceived Challenge[] @relation("ChallengeReceiver")
+  teamMemberships   TeamMember[]
+
+  @@index([totalPoints(sort: Desc)])
+  @@index([email])
+  @@index([username])
+}
+
+// ============================================
+// TEAMS & MATCHES
+// ============================================
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  shortName String   @unique // e.g., "NGR", "EGY"
+  country   String
+  group     String   // A, B, C, D, E, F
+  logoUrl   String?
+  flagUrl   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  homeMatches Match[] @relation("HomeTeam")
+  awayMatches Match[] @relation("AwayTeam")
+
+  @@index([group])
+}
+
+model Match {
+  id          String      @id @default(cuid())
+  teamAId     String
+  teamBId     String
+  matchDate   DateTime
+  venue       String
+  stage       MatchStage  @default(GROUP)
+  groupName   String?     // For group stage matches
+  
+  // Results
+  scoreA      Int?
+  scoreB      Int?
+  status      MatchStatus @default(UPCOMING)
+  
+  // Metadata
+  matchNumber Int         @unique // Official match number
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  teamA       Team        @relation("HomeTeam", fields: [teamAId], references: [id])
+  teamB       Team        @relation("AwayTeam", fields: [teamBId], references: [id])
+  predictions Prediction[]
+  challenges  Challenge[]
+
+  @@index([matchDate])
+  @@index([status])
+  @@index([stage])
+}
+
+enum MatchStage {
+  GROUP
+  ROUND_OF_16
+  QUARTER_FINAL
+  SEMI_FINAL
+  THIRD_PLACE
+  FINAL
+}
+
+enum MatchStatus {
+  UPCOMING
+  LIVE
+  COMPLETED
+  POSTPONED
+  CANCELLED
+}
+
+// ============================================
+// PREDICTIONS
+// ============================================
+
+model Prediction {
+  id              String          @id @default(cuid())
+  userId          String
+  matchId         String
+  
+  predictedWinner PredictionType
+  predictedScoreA Int?            // Optional exact score
+  predictedScoreB Int?
+  
+  pointsEarned    Int             @default(0)
+  isCorrect       Boolean?        // null until match completed
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  match           Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, matchId])
+  @@index([userId])
+  @@index([matchId])
+}
+
+enum PredictionType {
+  TEAM_A
+  TEAM_B
+  DRAW
+}
+
+// ============================================
+// ACHIEVEMENTS
+// ============================================
+
+model Achievement {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  iconUrl     String?
+  category    String   // "prediction", "streak", "social", "milestone"
+  condition   String   // JSON string with achievement criteria
+  points      Int      @default(0) // Bonus points for unlocking
+  
+  createdAt   DateTime @default(now())
+
+  // Relations
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  achievementId String
+  unlockedAt    DateTime    @default(now())
+
+  // Relations
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+// ============================================
+// CHALLENGES (Friend Duels)
+// ============================================
+
+model Challenge {
+  id           String          @id @default(cuid())
+  senderId     String
+  receiverId   String
+  matchId      String
+  
+  status       ChallengeStatus @default(PENDING)
+  winnerId     String?
+  
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  // Relations
+  sender       User            @relation("ChallengeSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver     User            @relation("ChallengeReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  match        Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId, matchId])
+}
+
+enum ChallengeStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+}
+
+// ============================================
+// TEAMS (User Groups)
+// ============================================
+
+model PredictionTeam {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String?
+  logoUrl     String?
+  ownerId     String
+  isPublic    Boolean      @default(true)
+  
+  // Stats
+  totalPoints Int          @default(0)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  members     TeamMember[]
+}
+
+model TeamMember {
+  id        String         @id @default(cuid())
+  userId    String
+  teamId    String
+  role      TeamRole       @default(MEMBER)
+  joinedAt  DateTime       @default(now())
+
+  // Relations
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team      PredictionTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, teamId])
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean          @default(false)
+  
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([createdAt(sort: Desc)])
+}
+
+enum NotificationType {
+  MATCH_REMINDER
+  MATCH_RESULT
+  RANK_CHANGE
+  ACHIEVEMENT
+  CHALLENGE
+  SYSTEM
+}

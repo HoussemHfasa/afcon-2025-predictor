@@ -1,0 +1,361 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light mode colors */
+  --background: #ffffff;
+  --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-border: #e7e7e7;
+  --muted: #6d6d6d;
+  --muted-bg: #f6f6f6;
+
+  /* Brand colors */
+  --primary: #f5c518;
+  --primary-dark: #e6a700;
+  --secondary: #10b959;
+  --accent: #ef4444;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #171717;
+  --card-border: #262626;
+  --muted: #888888;
+  --muted-bg: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Mobile optimizations */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  /* Prevent hover states on touch devices */
+  @media (hover: none) {
+    .hover-lift:hover {
+      transform: none;
+    }
+  }
+  
+  /* Larger touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safe area padding for notched devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Prevent text selection on touch for UI elements */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Hardware acceleration for smooth animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted-bg);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-primary-500 to-secondary-500;
+  }
+
+  .glass {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/20 backdrop-blur-xl border border-white/10;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 30px rgba(245, 197, 24, 0.4);
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1;
+  }
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl 
+           transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-primary-500 to-primary-400 text-dark-950 
+           hover:from-primary-400 hover:to-primary-300 hover:shadow-glow 
+           active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary-500 text-white hover:bg-secondary-400 
+           active:scale-95;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-primary-500 text-primary-500 
+           hover:bg-primary-500 hover:text-dark-950 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply btn hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95;
+    color: var(--foreground);
+  }
+
+  .card {
+    @apply bg-[var(--card-bg)] rounded-2xl border border-[var(--card-border)] 
+           shadow-lg overflow-hidden transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-xl hover:-translate-y-1 hover:border-primary-500/50;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500
+           transition-all duration-200 placeholder:text-gray-400;
+    background: var(--muted-bg);
+    border-color: var(--card-border);
+  }
+
+  .label {
+    @apply block text-sm font-medium mb-2 text-[var(--foreground)];
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-500/20 text-primary-500;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary-500/20 text-secondary-500;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent-500/20 text-accent-500;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(
+    90deg,
+    var(--muted-bg) 0%,
+    var(--card-bg) 50%,
+    var(--muted-bg) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero-gradient {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(245, 197, 24, 0.3),
+    transparent
+  );
+}
+
+.hero-pattern {
+  background-image: radial-gradient(
+      circle at 25% 25%,
+      rgba(245, 197, 24, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(16, 185, 89, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+/* ============================================
+   MATCH CARD STYLES
+   ============================================ */
+
+.match-card {
+  @apply card relative overflow-hidden;
+}
+
+.match-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.match-live {
+  @apply border-accent-500/50;
+}
+
+.match-live::before {
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+/* ============================================
+   LEADERBOARD STYLES
+   ============================================ */
+
+.leaderboard-row {
+  @apply flex items-center gap-4 p-4 rounded-xl transition-all duration-200;
+}
+
+.leaderboard-row:hover {
+  @apply bg-primary-500/10;
+}
+
+.rank-gold {
+  @apply bg-gradient-to-r from-yellow-400 to-yellow-600 text-white;
+}
+
+.rank-silver {
+  @apply bg-gradient-to-r from-gray-300 to-gray-500 text-white;
+}
+
+.rank-bronze {
+  @apply bg-gradient-to-r from-orange-400 to-orange-600 text-white;
+}
+
+/* ============================================
+   PREDICTION SELECTOR
+   ============================================ */
+
+.prediction-option {
+  @apply flex-1 p-4 rounded-xl border-2 border-[var(--card-border)] cursor-pointer
+         transition-all duration-200 text-center hover:border-primary-500/50;
+}
+
+.prediction-option.selected {
+  @apply border-primary-500 bg-primary-500/10;
+}
+
+.prediction-option:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* ============================================
+   COUNTDOWN TIMER
+   ============================================ */
+
+.countdown-item {
+  @apply flex flex-col items-center justify-center p-3 rounded-xl bg-[var(--muted-bg)];
+}
+
+.countdown-value {
+  @apply text-2xl md:text-3xl font-bold text-primary-500;
+}
+
+.countdown-label {
+  @apply text-xs uppercase tracking-wider text-[var(--muted)];
+}

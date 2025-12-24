@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { FiCheck, FiLoader, FiLock } from "react-icons/fi";
@@ -29,6 +30,7 @@ export function PredictionForm({
   onSuccess,
 }: PredictionFormProps) {
   const { data: session } = useSession();
+  const router = useRouter();
   const [selectedWinner, setSelectedWinner] = useState<PredictionType | null>(
     existingPrediction?.predictedWinner ?? null
   );
@@ -42,9 +44,65 @@ export function PredictionForm({
   const [showScores, setShowScores] = useState(
     existingPrediction?.predictedScoreA !== null
   );
+  const [scoreError, setScoreError] = useState<string | null>(null);
 
-  // Check if predictions are closed
-  const deadline = new Date(matchDate.getTime() - 60 * 60 * 1000);
+  // Validate that score matches the predicted winner
+  const validateScoreMatchesWinner = (
+    winner: PredictionType | null,
+    sA: string,
+    sB: string
+  ): string | null => {
+    if (!winner || sA === "" || sB === "") return null;
+    
+    const numA = parseInt(sA);
+    const numB = parseInt(sB);
+    
+    if (isNaN(numA) || isNaN(numB)) return null;
+    
+    if (winner === "TEAM_A" && numA <= numB) {
+      return `Score must show ${teamAName} winning (e.g., ${numB + 1}-${numB})`;
+    }
+    if (winner === "TEAM_B" && numB <= numA) {
+      return `Score must show ${teamBName} winning (e.g., ${numA}-${numA + 1})`;
+    }
+    if (winner === "DRAW" && numA !== numB) {
+      return `Score must be a draw (e.g., ${numA}-${numA})`;
+    }
+    
+    return null;
+  };
+
+  // Auto-fill 0 for the other team when entering a score
+  const handleScoreAChange = (value: string) => {
+    setScoreA(value);
+    if (value && scoreB === "") {
+      setScoreB("0");
+      setScoreError(validateScoreMatchesWinner(selectedWinner, value, "0"));
+    } else {
+      setScoreError(validateScoreMatchesWinner(selectedWinner, value, scoreB));
+    }
+  };
+
+  const handleScoreBChange = (value: string) => {
+    setScoreB(value);
+    if (value && scoreA === "") {
+      setScoreA("0");
+      setScoreError(validateScoreMatchesWinner(selectedWinner, "0", value));
+    } else {
+      setScoreError(validateScoreMatchesWinner(selectedWinner, scoreA, value));
+    }
+  };
+
+  // Also validate when winner changes
+  const handleWinnerChange = (winner: PredictionType) => {
+    setSelectedWinner(winner);
+    if (scoreA !== "" && scoreB !== "") {
+      setScoreError(validateScoreMatchesWinner(winner, scoreA, scoreB));
+    }
+  };
+
+  // Check if predictions are closed (1 minute before match start)
+  const deadline = new Date(matchDate.getTime() - 1 * 60 * 1000);
   const isClosed = new Date() >= deadline;
 
   if (!session) {
@@ -75,6 +133,12 @@ export function PredictionForm({
       return;
     }
 
+    // Check if score matches winner
+    if (scoreError) {
+      toast.error(scoreError);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -99,6 +163,7 @@ export function PredictionForm({
       toast.success(
         existingPrediction ? "Prediction updated!" : "Prediction saved!"
       );
+      router.refresh(); // Refresh to update predicted badges
       onSuccess?.();
     } catch {
       toast.error("Something went wrong");
@@ -116,7 +181,7 @@ export function PredictionForm({
         </h4>
         <div className="grid grid-cols-3 gap-3">
           <button
-            onClick={() => setSelectedWinner("TEAM_A")}
+            onClick={() => handleWinnerChange("TEAM_A")}
             disabled={loading}
             className={`prediction-option flex flex-col items-center justify-center ${
               selectedWinner === "TEAM_A" ? "selected" : ""
@@ -132,7 +197,7 @@ export function PredictionForm({
           </button>
 
           <button
-            onClick={() => setSelectedWinner("DRAW")}
+            onClick={() => handleWinnerChange("DRAW")}
             disabled={loading}
             className={`prediction-option flex flex-col items-center justify-center ${
               selectedWinner === "DRAW" ? "selected" : ""
@@ -146,7 +211,7 @@ export function PredictionForm({
           </button>
 
           <button
-            onClick={() => setSelectedWinner("TEAM_B")}
+            onClick={() => handleWinnerChange("TEAM_B")}
             disabled={loading}
             className={`prediction-option flex flex-col items-center justify-center ${
               selectedWinner === "TEAM_B" ? "selected" : ""
@@ -192,7 +257,7 @@ export function PredictionForm({
                     min="0"
                     max="20"
                     value={scoreA}
-                    onChange={(e) => setScoreA(e.target.value)}
+                    onChange={(e) => handleScoreAChange(e.target.value)}
                     disabled={loading}
                     className="w-16 h-16 text-center text-2xl font-bold rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] focus:outline-none focus:ring-2 focus:ring-primary-500"
                   />
@@ -207,7 +272,7 @@ export function PredictionForm({
                     min="0"
                     max="20"
                     value={scoreB}
-                    onChange={(e) => setScoreB(e.target.value)}
+                    onChange={(e) => handleScoreBChange(e.target.value)}
                     disabled={loading}
                     className="w-16 h-16 text-center text-2xl font-bold rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] focus:outline-none focus:ring-2 focus:ring-primary-500"
                   />
@@ -216,6 +281,12 @@ export function PredictionForm({
               <p className="text-xs text-center text-[var(--muted)] mt-2">
                 Predict the correct goal difference for +1 bonus point
               </p>
+              {/* Score-Winner Validation Error */}
+              {scoreError && (
+                <p className="text-sm text-center text-accent-500 mt-3 font-medium">
+                  ⚠️ {scoreError}
+                </p>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -224,7 +295,7 @@ export function PredictionForm({
       {/* Submit Button */}
       <button
         onClick={handleSubmit}
-        disabled={loading || !selectedWinner}
+        disabled={loading || !selectedWinner || !!scoreError}
         className="btn-primary w-full"
       >
         {loading ? (

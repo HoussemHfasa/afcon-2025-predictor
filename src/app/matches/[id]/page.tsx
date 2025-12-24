@@ -58,6 +58,26 @@ async function getPredictionStats(matchId: string) {
   };
 }
 
+async function getAllPredictions(matchId: string) {
+  return prisma.prediction.findMany({
+    where: { matchId },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          profilePic: true,
+        },
+      },
+    },
+    orderBy: [
+      { isCorrect: 'desc' },
+      { pointsEarned: 'desc' },
+      { createdAt: 'asc' },
+    ],
+  });
+}
+
 export default async function MatchDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
   const match = await getMatch(resolvedParams.id);
@@ -76,6 +96,10 @@ export default async function MatchDetailPage({ params }: PageProps) {
   const isUpcoming = match.status === "UPCOMING";
   const isLive = match.status === "LIVE";
   const isCompleted = match.status === "COMPLETED";
+  
+  // Predictions are locked after match starts
+  const predictionsAreLocked = !isUpcoming;
+  const allPredictions = predictionsAreLocked ? await getAllPredictions(match.id) : [];
 
   return (
     <div className="min-h-screen py-24 px-4">
@@ -280,6 +304,106 @@ export default async function MatchDetailPage({ params }: PageProps) {
             )}
           </div>
         </div>
+
+        {/* All Players' Predictions - Only shown when predictions are locked */}
+        {predictionsAreLocked && allPredictions.length > 0 && (
+          <div className="card p-6 mt-8">
+            <h3 className="text-lg font-semibold text-[var(--foreground)] mb-6 flex items-center gap-2">
+              <FiUsers className="w-5 h-5 text-primary-500" />
+              All Players&apos; Predictions
+              <span className="ml-auto text-sm font-normal text-[var(--muted)]">
+                {allPredictions.length} prediction{allPredictions.length !== 1 ? 's' : ''}
+              </span>
+            </h3>
+
+            <div className="space-y-3">
+              {allPredictions.map((prediction) => {
+                const winnerLabel = 
+                  prediction.predictedWinner === "TEAM_A" ? match.teamA.shortName :
+                  prediction.predictedWinner === "TEAM_B" ? match.teamB.shortName : "Draw";
+                
+                const hasBonus = prediction.pointsEarned > 3;
+                
+                return (
+                  <div
+                    key={prediction.id}
+                    className={`flex items-center gap-4 p-4 rounded-xl transition-all ${
+                      isCompleted
+                        ? prediction.isCorrect
+                          ? "bg-secondary-500/10 border border-secondary-500/20"
+                          : "bg-accent-500/10 border border-accent-500/20"
+                        : "bg-[var(--muted-bg)] border border-[var(--card-border)]"
+                    }`}
+                  >
+                    {/* User Avatar */}
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center overflow-hidden flex-shrink-0">
+                      {prediction.user.profilePic ? (
+                        <Image
+                          src={prediction.user.profilePic}
+                          alt={prediction.user.username}
+                          width={40}
+                          height={40}
+                          className="object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-bold text-sm">
+                          {prediction.user.username.charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Username */}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-[var(--foreground)] truncate">
+                        {prediction.user.username}
+                        {session?.user?.id === prediction.user.id && (
+                          <span className="ml-2 text-xs text-primary-500">(You)</span>
+                        )}
+                      </p>
+                      <p className="text-sm text-[var(--muted)]">
+                        Predicted: {winnerLabel}
+                      </p>
+                    </div>
+
+                    {/* Predicted Score */}
+                    <div className="text-center px-4">
+                      <div className="flex items-center gap-2 text-lg font-bold">
+                        <span className={isCompleted && prediction.isCorrect ? "text-secondary-500" : "text-[var(--foreground)]"}>
+                          {prediction.predictedScoreA}
+                        </span>
+                        <span className="text-[var(--muted)]">-</span>
+                        <span className={isCompleted && prediction.isCorrect ? "text-secondary-500" : "text-[var(--foreground)]"}>
+                          {prediction.predictedScoreB}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Result Badge (only for completed matches) */}
+                    {isCompleted && (
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {prediction.isCorrect ? (
+                          <>
+                            <span className="text-secondary-500 font-semibold">✓</span>
+                            {hasBonus && (
+                              <span className="badge bg-amber-500 text-white text-xs px-2 py-0.5">
+                                +{prediction.pointsEarned} pts
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <span className="text-accent-500 font-semibold">✗</span>
+                        )}
+                        <span className={`text-sm font-medium ${prediction.isCorrect ? "text-secondary-500" : "text-accent-500"}`}>
+                          +{prediction.pointsEarned}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
